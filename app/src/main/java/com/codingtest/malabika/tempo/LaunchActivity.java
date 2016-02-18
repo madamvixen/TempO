@@ -101,8 +101,6 @@ public class LaunchActivity extends AppCompatActivity {
             //API call to get the JSON object
             String ApiUrl = params[0];
             Log.e("TEMPO", ApiUrl);
-
-            //generate random values for temperatures
             return null;
         }
 

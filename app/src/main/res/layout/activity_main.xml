@@ -15,7 +15,8 @@
         android:id="@+id/MontoFriTempList"
         android:fastScrollEnabled="false"
         android:choiceMode="none"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="10dp" />
 
     <!--<ToggleButton-->
         <!--android:layout_width="50dp"-->
@@ -45,26 +46,64 @@
             android:text="Ambient Temp"
             android:id="@+id/AmbientTempText"
             android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:gravity="center_vertical|center_horizontal"
+            android:textStyle="bold"
+            android:padding="5dp"
+            android:background="#000000"
+            android:layout_margin="2dp"
+            android:textColor="#ffffff" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:text="CityName"
             android:id="@+id/LocationNameText"
             android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:gravity="center_vertical|center_horizontal"
+            android:textColor="#000000"
+            android:textStyle="bold" />
     </RelativeLayout>
 
     <ImageButton
-        android:layout_width="50dp"
+        android:layout_width="60dp"
         android:layout_height="40dp"
         android:id="@+id/RefreshDataButton"
         android:src="@android:drawable/stat_notify_sync"
         android:contentDescription="refreshtempdata"
-        android:background="#dc9b9b"
+        android:background="#000000"
         android:layout_above="@+id/MontoFriTempList"
         android:layout_alignParentStart="true" />
+
+    <ToggleButton
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:text="CorFToggleAll"
+        android:id="@+id/toggleAllButton"
+        android:enabled="true"
+        android:checked="true"
+        android:textOn="*C"
+        android:textOff="*F"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_alignTop="@+id/RefreshDataButton"
+        android:layout_alignEnd="@+id/MontoFriTempList"
+        android:gravity="center_horizontal" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="EXIT"
+        android:id="@+id/buttonExit"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="#ff0000"
+        android:enabled="true"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:padding="2dp" />
 
     <!--<ToggleButton-->
         <!--android:layout_width="50dp"-->

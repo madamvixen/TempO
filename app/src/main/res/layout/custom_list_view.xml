@@ -3,25 +3,29 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:gravity="center_horizontal">
+    android:gravity="center_vertical|center_horizontal">
 
     <TextView
         android:id="@+id/weekday_name_text"
         android:layout_width="150dp"
         android:layout_height="50dp"
         android:textStyle="bold"
-        android:textSize="15sp" />
+        android:textSize="15sp"
+        android:layout_gravity="center"
+        android:gravity="center_vertical" />
 
     <TextView
         android:id="@+id/weekday_temp_text"
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:textStyle="bold"
-        android:textSize="15sp" />
+        android:textSize="15sp"
+        android:layout_gravity="center"
+        android:gravity="center_vertical" />
 
     <ToggleButton
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:text="cel_fahr"
         android:id="@+id/cel_fahr_toggle"
         android:checked="true"
@@ -29,6 +33,7 @@
         android:textOn="*C"
         android:textStyle="bold"
         android:enabled="true"
-        android:textSize="15sp" />
+        android:textSize="10sp"
+        android:layout_gravity="center_vertical" />
 
 </LinearLayout>
