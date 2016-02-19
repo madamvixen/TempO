@@ -24,4 +24,4 @@ No APIs are used for fetching the temperature data. Random values generated.
 1. Obtain API key for OpenWeatherMaps API, and get the URL for API call
 2. httpConnect to the specified URL,& obtain the JsonObjects.
 3. Must be done in doInBackGround(...) method of AsyncTask class
-4. Option 2: Use android Volley to obtain the library for methods handling JsonArrayRequest etc
+4. Option 2: Use android Volley for methods handling JsonArrayRequest etc
