@@ -88,6 +88,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         dateTimeTextView.setText(sdf.format(new Date()));
 
         //---------------------------------------------------------------------------------------
+        //Sensor Manager; to get the reference to the sensor for measuring Ambient Temperature of the phone.
+
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         mAmbientTempSensor = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
 

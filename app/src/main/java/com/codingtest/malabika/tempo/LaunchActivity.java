@@ -32,9 +32,9 @@ public class LaunchActivity extends AppCompatActivity {
         }
         else {
 
-            //TODO:  Adding the functionality for obtaining the Json object from given API call
+            //TODO:  Add functionality for obtaining the Json object from the API call
 
-            Toast.makeText(LaunchActivity.this, "Fetching weather data Online NOT Implemented!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LaunchActivity.this, "Fetching weather data online NOT Implemented!", Toast.LENGTH_SHORT).show();
 
             //Calling main activity
             Intent i = new Intent(LaunchActivity.this, MainActivity.class);
