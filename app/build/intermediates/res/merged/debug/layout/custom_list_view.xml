@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:gravity="center_vertical|center_horizontal">
+    android:gravity="center_vertical|center_horizontal"
+    android:background="#000000">
 
     <TextView
         android:id="@+id/weekday_name_text"
@@ -12,7 +13,9 @@
         android:textStyle="bold"
         android:textSize="15sp"
         android:layout_gravity="center"
-        android:gravity="center_vertical" />
+        android:gravity="center_vertical"
+        android:typeface="serif"
+        android:textColor="#ffffff" />
 
     <TextView
         android:id="@+id/weekday_temp_text"
@@ -21,7 +24,9 @@
         android:textStyle="bold"
         android:textSize="15sp"
         android:layout_gravity="center"
-        android:gravity="center_vertical" />
+        android:gravity="center_vertical"
+        android:typeface="serif"
+        android:textColor="#ffffff" />
 
     <ToggleButton
         android:layout_width="40dp"
@@ -34,6 +39,8 @@
         android:textStyle="bold"
         android:enabled="true"
         android:textSize="10sp"
-        android:layout_gravity="center_vertical" />
+        android:layout_gravity="center_vertical"
+        android:typeface="serif"
+        android:textColor="#000000" />
 
 </LinearLayout>

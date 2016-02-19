@@ -7,7 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.codingtest.malabika.tempo.LaunchActivity">
+    tools:context="com.codingtest.malabika.tempo.LaunchActivity"
+    android:background="#ffe6f7">
 
     <TextView
         android:layout_width="wrap_content"
@@ -16,7 +17,10 @@
         android:text="WELCOME!"
         android:id="@+id/launchTextView"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:typeface="serif"
+        android:textSize="30sp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -27,4 +31,13 @@
         android:layout_below="@+id/launchTextView"
         android:layout_centerHorizontal="true"
         android:visibility="invisible" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="By Malabika Das"
+        android:id="@+id/nameView"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">TempO</string>
+    <string name="SensorNotFound">Temperature Sensor Not Found</string>
+    <string name="defaultAmbientTemperatureText">Ambient Temp</string>
+    <string name="dateText">Date</string>
+    <string name="refreshButtonContent">refreshtempdata</string>
 </resources>

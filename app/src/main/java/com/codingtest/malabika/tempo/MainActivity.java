@@ -1,8 +1,5 @@
 package com.codingtest.malabika.tempo;
 
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Context;
 import android.graphics.Color;
 import android.hardware.Sensor;
@@ -15,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -28,13 +24,16 @@ import android.widget.ToggleButton;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener{
 
-    //Ignore warnings for the native methods below. Doesnot affect the functionality of the application
+    //---------------------------------------------------------------------------------------------
+    //JNI Native C/C++ Shared Library Implementation - declaring the native functions in the jave file
+
+    //Ignore warnings for the native methods below. Does not affect the functionality of the application
+
     public native double tempconvmethod(double initialTemp, boolean isC);
     public native double[] tempconvmethodarray(double[] initialTempArray, boolean isC);
 
@@ -42,27 +41,27 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         System.loadLibrary("tempConversion");
     }
 
+    //---------------------------------------------------------------------------------------------
+
     public final static String TAG = "TEMPO";
     public static final int MIN_TEMP = -20;
     public static final int MAX_TEMP = 20;
-
     private static final String TOGGLE_BTN_STATE = "ToggleButtonState";
-    private static final String TEMPERATURE_VALUES = "TemperatureValues";
-
+    private static final String TEMPERATURE_VALUES = "temperatureValue_List";
 
     //Declaration of UI Elements
     ToggleButton Btn_CFToggleAll;
     Button Btn_Exit;
     ImageButton Btn_Refresh;
     TextView ambientTempTextView;
-    TextView  cityNameTextView;
+    TextView  dateTimeTextView;
     ListView tempMonToFriListView;
 
 
-    double[] tempList = new double[5];
+    double[] temperatureValues = new double[5];
     String[] weekdays_list = {"MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY"};
-    boolean[] btnState = new boolean[5];
-    ArrayList<String> temperatureValues = new ArrayList<>();
+    boolean[] unitToggleStateAll = new boolean[5];
+    ArrayList<String> temperatureValue_List = new ArrayList<>();
 
     SensorManager sensorManager;
     Sensor mAmbientTempSensor;
@@ -77,15 +76,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         ambientTempTextView = (TextView) findViewById(R.id.AmbientTempText);  // TextView for display of Ambient Temperature
         tempMonToFriListView = (ListView) findViewById(R.id.MontoFriTempList);  // LIst View displaying the temperature for the week (mon to fri)
-        cityNameTextView = (TextView) findViewById(R.id.LocationNameText);
+        dateTimeTextView = (TextView) findViewById(R.id.DateTimeText);
         Btn_Refresh = (ImageButton) findViewById(R.id.RefreshDataButton);
         Btn_CFToggleAll = (ToggleButton) findViewById(R.id.toggleAllButton);
         Btn_Exit = (Button) findViewById(R.id.buttonExit);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy", Locale.US);
-        String currentDateandTime = sdf.format(new Date());
-        String cityName = "NEW BRUNSWICK "+ "\n\n NEW JERSEY" + "\n\n"+ currentDateandTime;
-        cityNameTextView.setText(cityName);
+        SimpleDateFormat sdf = new SimpleDateFormat("MM.dd.yyyy", Locale.US);
+        dateTimeTextView.setText(sdf.format(new Date()));
 
         //---------------------------------------------------------------------------------------
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -94,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         //Initial Population of the list in UI
         generateRandomTemperatureList(MIN_TEMP, MAX_TEMP);
-        populateListView(weekdays_list,null,temperatureValues);
+        populateListView(weekdays_list,null,temperatureValue_List);
 
         //----------------------------------------------------------------------------------------
         //Button implementation for toggling units between Celsius and Fahrenheit
@@ -104,35 +101,38 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Btn_CFToggleAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
                 // toggle between the celsius and fahrenheit display of the temperatures in the application
-                //updateTemperatureDisplay(isChecked);
-                temperatureValues.clear();
-                tempList = tempconvmethodarray(tempList,isChecked);
-                for(int i = 0; i < tempList.length; i++) {
-                    Log.e(TAG, "changed to: " + tempList[i]);
-                    temperatureValues.add(String.valueOf(tempList[i]));
+                temperatureValue_List.clear();
+
+                //Calling native method to accept the double array and return the double array with altered units
+                temperatureValues = tempconvmethodarray(temperatureValues,isChecked);
+
+                for(int i = 0; i < temperatureValues.length; i++) {
+                    temperatureValue_List.add(String.valueOf(temperatureValues[i]));
                 }
-                resetButtonStates(btnState,isChecked);
-                populateListView(weekdays_list,btnState,temperatureValues);
+
+                resetButtonStates(unitToggleStateAll,isChecked);
+                populateListView(weekdays_list,unitToggleStateAll,temperatureValue_List);
             }
         });
 
         //----------------------------------------------------------------------------------------
         //Refresh Button implementation for resetting the values in the list with new set of Celsius values; updating the units as well
-        //todo :Populate the random values of the temperatures keeping in mind the daily setting of the units
+        //todo :Populate the random values of the temperatures keeping in mind the daily setting of the units (either C or F)
         //----------------------------------------------------------------------------------------
 
         Btn_Refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Refresh the data obtained from the API
-                //resetButtonStates(btnState,isCelsius);
+
                 generateRandomTemperatureList(MIN_TEMP, MAX_TEMP);
-                populateListView(weekdays_list, null, temperatureValues);
+                populateListView(weekdays_list, null, temperatureValue_List);
+
                 Toast.makeText(MainActivity.this,"Temperature Values Refreshed", Toast.LENGTH_SHORT).show();
-                //loadTemperatureInfo();
             }
         });
+
 
         //---------------------------------------------------------------------------------------
         //Exit Button for ending Main Activity
@@ -146,6 +146,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         });
     }
 
+    //---------------------------------------------------------------------------------------------
     /**
      * Implementation of the Ambient Temperature measurement by external temperature sensors
      * The following methods are implemented assuming the sensor exists.
@@ -177,10 +178,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     {
         super.onResume();
         if(mAmbientTempSensor!=null)
-            sensorManager.registerListener(this,mAmbientTempSensor,SensorManager.SENSOR_DELAY_NORMAL);
+            sensorManager.registerListener(this,mAmbientTempSensor,SensorManager.SENSOR_DELAY_NORMAL); //Register listener to check if data available and changed at the sensor.
         else
-            ambientTempTextView.setText("Temperature Sensor Not Found");
+            ambientTempTextView.setText(R.string.SensorNotFound);
     }
+    //---------------------------------------------------------------------------------------------
 
     /**
      * Custom Array Aadapter Implementation:
@@ -195,28 +197,29 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         ArrayList<String> tempValues = new ArrayList<>();
         String[] weekdays = new String[5];
-        boolean[] toggleState = new boolean[5];
+        boolean[] unitToggleState = new boolean[5];
 
-        TextView tempText;
+        TextView temperatureTextView;
         TextView weekDayText;
-        ToggleButton tempToggle;
+        ToggleButton Btn_CelsiusFahrToggle;
 
-
+        //Constructor for custom adapter, taking the present unit values(from the button), and the Temperature values
         public listArrayAdapter(Context context,String[] weekdayvalues, boolean[] btnStateValues, ArrayList<String> values) {
 
             this.context = context;
             this.tempValues = values;
             this.weekdays = weekdayvalues;
+
             if(btnStateValues!=null)
-                this.toggleState = btnStateValues; //Loading previous button state values.
+                this.unitToggleState = btnStateValues; //Loading previous button state values.
             else {
-                resetButtonStates(toggleState,true); //resetting the states to true; i.e. By default setting units to Celsius
+                resetButtonStates(unitToggleState,true); //if not previous unit selections available, then resetting the states to true; i.e. By default setting units to Celsius
             }
 
             layoutInflater = (LayoutInflater)context.getSystemService(LAYOUT_INFLATER_SERVICE); //Get the Layout Inflater
 
-            btnState = toggleState;
-            temperatureValues = tempValues;
+            unitToggleStateAll = unitToggleState;
+            temperatureValue_List = tempValues;
         }
 
         @Override
@@ -240,28 +243,37 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             View tempRowView = layoutInflater.inflate(R.layout.custom_list_view, parent, false);
 
             //Initialise UI elements for the custom list view
-            tempText = (TextView)tempRowView.findViewById(R.id.weekday_temp_text);
+            temperatureTextView = (TextView)tempRowView.findViewById(R.id.weekday_temp_text);
             weekDayText = (TextView) tempRowView.findViewById(R.id.weekday_name_text);
-            tempToggle = (ToggleButton) tempRowView.findViewById(R.id.cel_fahr_toggle);
+            Btn_CelsiusFahrToggle = (ToggleButton) tempRowView.findViewById(R.id.cel_fahr_toggle);
 
             //Populate List with values generated
-            tempText.setText(tempValues.get(position));
+            temperatureTextView.setText(tempValues.get(position));
             weekDayText.setText(weekdays[position]);
-            tempToggle.setChecked(toggleState[position]);
+            Btn_CelsiusFahrToggle.setChecked(unitToggleState[position]);
 
-            tempToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            /**
+             * Additional Button implementation:
+             * Button against each Day's temperature value entry to toggle each day's view between celsius and fahrenheit
+             */
+            Btn_CelsiusFahrToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                    toggleState[position] = !toggleState[position];
+                    unitToggleState[position] = !unitToggleState[position]; //Toggle button state
                     String str = tempValues.get(position);
-                    tempValues.set(position, String.valueOf(tempconvmethod(Double.parseDouble(str), isChecked)));
+                    tempValues.set(position, String.valueOf(tempconvmethod(Double.parseDouble(str), isChecked))); //Calling the Native C++ function to perform conversion
+
                     notifyDataSetChanged();
                 }
             });
-            btnState = toggleState;
-            temperatureValues = tempValues;
+
+            //Saving temperature values and button states from storing in bundle
+            //useful when restoring activity state
+            unitToggleStateAll = unitToggleState;
+            temperatureValue_List = tempValues;
 
             return tempRowView;
         }
@@ -292,19 +304,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     /**
      * Method to generate random list of numbers for the 5 days of the week
-     * //Todo: To make it look closer to the real-time temperature values, range with low standarddeviation
-     *
      * @param Min
      * @param Max
      */
 
     private void generateRandomTemperatureList(int Min, int Max) {
-        temperatureValues.clear();
-        for(int i = 0; i < tempList.length; i++)
+        temperatureValue_List.clear();
+        for(int i = 0; i < temperatureValues.length; i++)
         {
-            tempList[i] = Min + (int)(Math.random() * ((Max - Min) + 1));
-            Log.e(TAG, "Temperature is: "+ tempList[i]);
-            temperatureValues.add(Double.toString(tempList[i]));
+            temperatureValues[i] = Min + (int)(Math.random() * ((Max - Min) + 1));
+            Log.e(TAG, "Temperature is: "+ temperatureValues[i]);
+            temperatureValue_List.add(Double.toString(temperatureValues[i]));
         }
     }
 
@@ -315,11 +325,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle savedInstanceState) 
+    protected void onSaveInstanceState(Bundle savedInstanceState)
     {
         super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putBooleanArray(TOGGLE_BTN_STATE, btnState);
-        savedInstanceState.putStringArrayList(TEMPERATURE_VALUES,temperatureValues);
+        savedInstanceState.putBooleanArray(TOGGLE_BTN_STATE, unitToggleStateAll);
+        savedInstanceState.putStringArrayList(TEMPERATURE_VALUES,temperatureValue_List);
     }
 
     @Override
