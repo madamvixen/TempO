@@ -133,7 +133,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
                 generateRandomTemperatureList(MIN_TEMP, MAX_TEMP);
                 populateListView(weekdays_list, null, temperatureValue_List);
-                Btn_CFToggleAll.setChecked(true);
                 Toast.makeText(MainActivity.this,"Temperature Values Refreshed", Toast.LENGTH_SHORT).show();
             }
         });
