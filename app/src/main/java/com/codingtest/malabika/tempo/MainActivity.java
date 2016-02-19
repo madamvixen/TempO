@@ -16,8 +16,10 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -59,8 +61,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
     double[] temperatureValues = new double[5];
+    double[] temperatureIconValues = new double[5];
     String[] weekdays_list = {"MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY"};
-    boolean[] unitToggleStateAll = new boolean[5];
+    boolean[] unitToggleStateAll = new boolean[5]; // for the state of the separate buttons for each day
     ArrayList<String> temperatureValue_List = new ArrayList<>();
 
     SensorManager sensorManager;
@@ -195,20 +198,22 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Context context;
         LayoutInflater layoutInflater;
 
-        ArrayList<String> tempValues = new ArrayList<>();
-        String[] weekdays = new String[5];
+        ArrayList<String> t_valueList = new ArrayList<>();
+        String[] w_dayArray = new String[5];
         boolean[] unitToggleState = new boolean[5];
 
         TextView temperatureTextView;
         TextView weekDayText;
+        ImageView tempIconView;
         ToggleButton Btn_CelsiusFahrToggle;
+
 
         //Constructor for custom adapter, taking the present unit values(from the button), and the Temperature values
         public listArrayAdapter(Context context,String[] weekdayvalues, boolean[] btnStateValues, ArrayList<String> values) {
 
             this.context = context;
-            this.tempValues = values;
-            this.weekdays = weekdayvalues;
+            this.t_valueList = values;
+            this.w_dayArray = weekdayvalues;
 
             if(btnStateValues!=null)
                 this.unitToggleState = btnStateValues; //Loading previous button state values.
@@ -219,12 +224,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             layoutInflater = (LayoutInflater)context.getSystemService(LAYOUT_INFLATER_SERVICE); //Get the Layout Inflater
 
             unitToggleStateAll = unitToggleState;
-            temperatureValue_List = tempValues;
+            temperatureValue_List = t_valueList;
         }
 
         @Override
         public int getCount() {
-            return tempValues.size();
+            return t_valueList.size();
         }
 
         @Override
@@ -245,13 +250,24 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             //Initialise UI elements for the custom list view
             temperatureTextView = (TextView)tempRowView.findViewById(R.id.weekday_temp_text);
             weekDayText = (TextView) tempRowView.findViewById(R.id.weekday_name_text);
+            tempIconView = (ImageView) tempRowView.findViewById(R.id.imageIconView);
             Btn_CelsiusFahrToggle = (ToggleButton) tempRowView.findViewById(R.id.cel_fahr_toggle);
 
             //Populate List with values generated
-            temperatureTextView.setText(tempValues.get(position));
-            weekDayText.setText(weekdays[position]);
+            temperatureTextView.setText(t_valueList.get(position));
+            weekDayText.setText(w_dayArray[position]);
             Btn_CelsiusFahrToggle.setChecked(unitToggleState[position]);
 
+            //Check if the temperature is above or below 0 degrees celsius and change icon accordingly
+            //Take copy of originally generated array as fixed data
+            double t_value = temperatureIconValues[position];
+
+            if(t_value >= -20 && t_value <= 0) {
+               tempIconView.setImageResource(R.drawable.ic_lowtemp);
+            }
+            else {
+                tempIconView.setImageResource(R.drawable.ic_hightemp);
+            }
 
             /**
              * Additional Button implementation:
@@ -263,8 +279,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                     unitToggleState[position] = !unitToggleState[position]; //Toggle button state
-                    String str = tempValues.get(position);
-                    tempValues.set(position, String.valueOf(tempconvmethod(Double.parseDouble(str), isChecked))); //Calling the Native C++ function to perform conversion
+                    String str = t_valueList.get(position);
+                    t_valueList.set(position, String.valueOf(tempconvmethod(Double.parseDouble(str), isChecked))); //Calling the Native C++ function to perform conversion
 
                     notifyDataSetChanged();
                 }
@@ -273,7 +289,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             //Saving temperature values and button states from storing in bundle
             //useful when restoring activity state
             unitToggleStateAll = unitToggleState;
-            temperatureValue_List = tempValues;
+            temperatureValue_List = t_valueList;
 
             return tempRowView;
         }
@@ -313,9 +329,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         for(int i = 0; i < temperatureValues.length; i++)
         {
             temperatureValues[i] = Min + (int)(Math.random() * ((Max - Min) + 1));
+            temperatureIconValues[i]  = temperatureValues[i];
             Log.e(TAG, "Temperature is: "+ temperatureValues[i]);
             temperatureValue_List.add(Double.toString(temperatureValues[i]));
         }
+
     }
 
     @Override

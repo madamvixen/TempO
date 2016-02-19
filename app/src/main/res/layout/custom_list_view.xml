@@ -19,7 +19,7 @@
 
     <TextView
         android:id="@+id/weekday_temp_text"
-        android:layout_width="100dp"
+        android:layout_width="80dp"
         android:layout_height="50dp"
         android:textStyle="bold"
         android:textSize="15sp"
@@ -27,6 +27,12 @@
         android:gravity="center_vertical"
         android:typeface="serif"
         android:textColor="#ffffff" />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/imageIconView"
+        android:src="@android:drawable/ic_dialog_alert" />
 
     <ToggleButton
         android:layout_width="40dp"

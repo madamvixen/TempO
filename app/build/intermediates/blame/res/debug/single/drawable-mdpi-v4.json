@@ -8,6 +8,10 @@
         "source": "C:\\Users\\Malabika\\AndroidStudioProjects\\TempO\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable-mdpi\\abc_cab_background_top_mtrl_alpha.9.png"
     },
     {
+        "merged": "C:\\Users\\Malabika\\AndroidStudioProjects\\TempO\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\ic_hightemp.png",
+        "source": "C:\\Users\\Malabika\\AndroidStudioProjects\\TempO\\app\\src\\main\\res\\drawable-mdpi\\ic_hightemp.png"
+    },
+    {
         "merged": "C:\\Users\\Malabika\\AndroidStudioProjects\\TempO\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\abc_scrubber_primary_mtrl_alpha.9.png",
         "source": "C:\\Users\\Malabika\\AndroidStudioProjects\\TempO\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable-mdpi\\abc_scrubber_primary_mtrl_alpha.9.png"
     },
@@ -40,8 +44,16 @@
         "source": "C:\\Users\\Malabika\\AndroidStudioProjects\\TempO\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable-mdpi\\abc_ic_ab_back_mtrl_am_alpha.png"
     },
     {
+        "merged": "C:\\Users\\Malabika\\AndroidStudioProjects\\TempO\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\temp_drop.png",
+        "source": "C:\\Users\\Malabika\\AndroidStudioProjects\\TempO\\app\\src\\main\\res\\drawable-mdpi\\temp_drop.png"
+    },
+    {
         "merged": "C:\\Users\\Malabika\\AndroidStudioProjects\\TempO\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\abc_list_pressed_holo_dark.9.png",
         "source": "C:\\Users\\Malabika\\AndroidStudioProjects\\TempO\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable-mdpi\\abc_list_pressed_holo_dark.9.png"
+    },
+    {
+        "merged": "C:\\Users\\Malabika\\AndroidStudioProjects\\TempO\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\ic_lowtemp.png",
+        "source": "C:\\Users\\Malabika\\AndroidStudioProjects\\TempO\\app\\src\\main\\res\\drawable-mdpi\\ic_lowtemp.png"
     },
     {
         "merged": "C:\\Users\\Malabika\\AndroidStudioProjects\\TempO\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\abc_scrubber_control_to_pressed_mtrl_005.png",
@@ -82,6 +94,10 @@
     {
         "merged": "C:\\Users\\Malabika\\AndroidStudioProjects\\TempO\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\abc_btn_check_to_on_mtrl_000.png",
         "source": "C:\\Users\\Malabika\\AndroidStudioProjects\\TempO\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable-mdpi\\abc_btn_check_to_on_mtrl_000.png"
+    },
+    {
+        "merged": "C:\\Users\\Malabika\\AndroidStudioProjects\\TempO\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\temp_high.png",
+        "source": "C:\\Users\\Malabika\\AndroidStudioProjects\\TempO\\app\\src\\main\\res\\drawable-mdpi\\temp_high.png"
     },
     {
         "merged": "C:\\Users\\Malabika\\AndroidStudioProjects\\TempO\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\abc_btn_switch_to_on_mtrl_00001.9.png",
